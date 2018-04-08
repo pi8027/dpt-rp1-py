@@ -284,6 +284,14 @@ class DigitalPaper():
 
         r = self._post_endpoint("/folders2", data=info)
 
+    def delete_folder(self, remote_directory):
+        encoded_remote_directory = quote_plus(remote_directory)
+        url = "/resolve/entry/path/{enc_dir}".format(enc_dir = encoded_remote_directory)
+        directory_entry = self._get_endpoint(url).json()
+        directory_id = directory_entry["entry_id"]
+        url = "/folders/{directory_id}".format(directory_id = directory_id)
+        self._delete_endpoint(url)
+
     ### Wifi
     def wifi_list(self):
         data = self._get_endpoint('/system/configs/wifi_accesspoints').json()
